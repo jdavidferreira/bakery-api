@@ -1,18 +1,7 @@
 import mongoose from 'mongoose'
-
-const State = {
-  NEW: 'New',
-  READY: 'Ready',
-  CONFIRMED: 'Confirmed',
-  DELIVERED: 'Delivered',
-  PROBLEM: 'Problem',
-  CANCELLED: 'Cancelled',
-  values: function() {
-    const obj = Object.values(this)
-    obj.length--
-    return obj
-  }
-}
+import mongooseSequence from 'mongoose-sequence'
+const AutoIncrement = mongooseSequence(mongoose)
+import State from './_State'
 
 const OrderSchema = mongoose.Schema(
   {
@@ -76,5 +65,10 @@ const OrderSchema = mongoose.Schema(
   },
   { collection: 'order', versionKey: false }
 )
+
+OrderSchema.plugin(AutoIncrement, {
+  inc_field: 'number',
+  collection_name: 'order_counter'
+})
 
 export default mongoose.model('Order', OrderSchema)

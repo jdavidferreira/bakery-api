@@ -29,8 +29,16 @@ import './model/User'
 //Routes
 const authRoute = require('./routes/auth')
 const userRoute = require('./routes/user')
+const customerRoute = require('./routes/customer')
+const productRoute = require('./routes/product')
+const pickUpLocationRoute = require('./routes/pickUpLocation')
+const orderRoute = require('./routes/order')
 app.use('/auth', authRoute)
 app.use('/user', userRoute)
+app.use('/customer', customerRoute)
+app.use('/product', productRoute)
+app.use('/pick_up_location', pickUpLocationRoute)
+app.use('/order', orderRoute)
 
 const middleware = require('./middleware')
 app.use(middleware.mongoErrorHandler)

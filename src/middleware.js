@@ -1,20 +1,24 @@
 import { verify as jwtVerify } from 'jsonwebtoken'
+import RBAC from 'easy-rbac'
+import roles from './roles'
+const rbac = new RBAC(roles)
+import User from './model/User'
 
-export async function requireUser(req, res, next) {
+export async function getUserFromJWT(req, res, next) {
   const authToken = req.cookies.auth_token
 
   if (authToken) {
     try {
-      const decoded = await jwtVerify(authToken, process.env.SECRET_KEY)
+      const jwtPayload = await jwtVerify(authToken, process.env.SECRET_KEY)
 
-      res.locals.userId = decoded.userId
+      res.locals.user = await User.findById(jwtPayload.user.id)
 
       next()
     } catch (error) {
-      res.status(401).json({ error: 'Invalid authorization token' })
+      res.status(401).json({ error: 'Invalid authentication token' })
     }
   } else {
-    res.status(401).json({ error: 'Not authorized' })
+    res.status(401).json({ error: 'Not authentication token found' })
   }
 }
 
@@ -43,9 +47,31 @@ export function mongoErrorHandler(error, req, res, next) {
       break
     default:
       message = error.message
-      console.error(error)
+      next(error)
       break
   }
 
   res.status(code).json({ message })
+}
+
+export async function checkOperationPermission(operation) {
+  return async function(req, res, next) {
+    const role = res.locals.user.role
+
+    if (!role) {
+      const err = new Error('User not found')
+      err.nam = 'ApiError'
+      next(err)
+    }
+
+    const isAllowed = await rbac.can('role', operation)
+
+    if (isAllowed) {
+      next()
+    } else {
+      const err = new Error('Unauthorized access')
+      err.nam = 'ApiError'
+      next(err)
+    }
+  }
 }

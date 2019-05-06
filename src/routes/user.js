@@ -1,20 +1,20 @@
-const express = require('express')
-const router = express.Router()
-const user = require('../controller/user')
-const restaurant = require('../controller/restaurant')
-const passport = require('passport')
+import { Router } from 'express'
+const router = Router()
+import * as userController from '../controller/user'
+import { getUserFromJWT, checkOperationPermission } from '../middleware'
 
 /**
  * /user/...
  */
-router.post('/', user.create)
+router.use(getUserFromJWT)
+router.use(checkOperationPermission('user'))
 
-/**
- * Next routes require authorization
- */
-router.use(passport.authenticate('jwt', { session: false }))
+router.get('/', userController.findAll)
+router.post('/', userController.create)
+router
+  .route('/:id')
+  .get(userController.findById)
+  .patch(userController.update)
+  .delete(userController.delete)
 
-router.post('/:id/change_password', user.changePassword)
-router.get('/:id/restaurant', restaurant.findByUser)
-
-module.exports = router
+export default router

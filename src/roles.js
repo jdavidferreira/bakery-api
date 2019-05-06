@@ -1,6 +1,6 @@
 export default {
   barista: {
-    can: ['order']
+    can: ['order', 'customer']
   },
   admin: {
     can: ['user', 'product'],
