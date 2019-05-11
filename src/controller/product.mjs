@@ -1,5 +1,5 @@
-import { model } from 'mongoose'
-const Product = model('Product')
+import mongoose from 'mongoose'
+const Product = mongoose.model('Product')
 
 export async function findAll(req, res) {
   let products = await Product.find()

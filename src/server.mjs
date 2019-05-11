@@ -1,4 +1,4 @@
-import app from '/app'
+import app from './app.mjs'
 
 app.listen(process.env.PORT, err => {
   if (err) {

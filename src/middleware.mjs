@@ -1,15 +1,15 @@
-import { verify as jwtVerify } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import RBAC from 'easy-rbac'
-import roles from './roles'
+import roles from './roles.mjs'
 const rbac = new RBAC(roles)
-import User from './model/User'
+import User from './model/User.mjs'
 
 export async function getUserFromJWT(req, res, next) {
   const authToken = req.cookies.auth_token
 
   if (authToken) {
     try {
-      const jwtPayload = await jwtVerify(authToken, process.env.SECRET_KEY)
+      const jwtPayload = await jwt.verify(authToken, process.env.SECRET_KEY)
 
       res.locals.user = await User.findById(jwtPayload.user.id)
 
@@ -54,7 +54,7 @@ export function mongoErrorHandler(error, req, res, next) {
   res.status(code).json({ message })
 }
 
-export async function checkOperationPermission(operation) {
+export function checkOperationPermission(operation) {
   return async function(req, res, next) {
     const role = res.locals.user.role
 

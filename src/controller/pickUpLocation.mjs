@@ -1,5 +1,5 @@
-import { model } from 'mongoose'
-const PickUpLocation = model('PickUpLocation')
+import mongoose from 'mongoose'
+const PickUpLocation = mongoose.model('PickUpLocation')
 
 export async function findAll(req, res) {
   let pickUpLocations = await PickUpLocation.find()

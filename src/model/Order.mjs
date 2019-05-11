@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import mongooseSequence from 'mongoose-sequence'
 const AutoIncrement = mongooseSequence(mongoose)
-import State from './_State'
+import State from './_State.mjs'
 
 const OrderSchema = mongoose.Schema(
   {

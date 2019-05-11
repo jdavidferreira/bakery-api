@@ -1,7 +1,7 @@
-import { model } from 'mongoose'
-const Order = model('Order')
-const Customer = model('Customer')
-import State from '../model/_State'
+import mongoose from 'mongoose'
+const Order = mongoose.model('Order')
+const Customer = mongoose.model('Customer')
+import State from '../model/_State.mjs'
 
 export async function findAll(req, res) {
   let orders = await Order.find()

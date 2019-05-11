@@ -1,4 +1,4 @@
-# Restaurant-API
+# Bakery-API
 
 A WebAPI REST with Express + MongoDB + JWT Authentication.
 
@@ -7,6 +7,4 @@ A WebAPI REST with Express + MongoDB + JWT Authentication.
 - NodeJS
 - ExpressJS
 - Mongoose
-- Passport (Local, JWT)
-- Google OAuth
 - Jest + Supertest

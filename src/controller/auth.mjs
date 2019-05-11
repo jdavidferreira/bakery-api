@@ -1,12 +1,12 @@
-import { model } from 'mongoose'
-const User = model('User')
-import { sign as jwtSign } from 'jsonwebtoken'
+import mongoose from 'mongoose'
+const User = mongoose.model('User')
+import jwt from 'jsonwebtoken'
 
 export async function authToken(req, res) {
   const user = await User.authenticate(req.body.email, req.body.password)
 
   if (user) {
-    const authToken = await jwtSign(
+    const authToken = await jwt.sign(
       { userId: user.id },
       process.env.SECRET_KEY,
       {

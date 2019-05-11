@@ -1,10 +1,10 @@
-import { Router } from 'express'
-const router = Router()
-import * as customerController from '../controller/customer'
-import { getUserFromJWT, checkOperationPermission } from '../middleware'
+import express from 'express'
+const router = express.Router()
+import * as customerController from '../controller/customer.mjs'
+import { getUserFromJWT, checkOperationPermission } from '../middleware.mjs'
 
 /**
- * /user/...
+ * /customer/...
  */
 router.use(getUserFromJWT)
 router.use(checkOperationPermission('customer'))

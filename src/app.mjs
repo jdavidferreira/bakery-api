@@ -24,15 +24,19 @@ app.use(
 )
 
 // Instanciate Models
-import './model/User'
+import './model/User.mjs'
+import './model/Customer.mjs'
+import './model/Product.mjs'
+import './model/pickUpLocation.mjs'
+import './model/Order.mjs'
 
 //Routes
-const authRoute = require('./routes/auth')
-const userRoute = require('./routes/user')
-const customerRoute = require('./routes/customer')
-const productRoute = require('./routes/product')
-const pickUpLocationRoute = require('./routes/pickUpLocation')
-const orderRoute = require('./routes/order')
+import authRoute from './routes/auth.mjs'
+import userRoute from './routes/user.mjs'
+import customerRoute from './routes/customer.mjs'
+import productRoute from './routes/product.mjs'
+import pickUpLocationRoute from './routes/pickUpLocation.mjs'
+import orderRoute from './routes/order.mjs'
 app.use('/auth', authRoute)
 app.use('/user', userRoute)
 app.use('/customer', customerRoute)
@@ -40,7 +44,7 @@ app.use('/product', productRoute)
 app.use('/pick_up_location', pickUpLocationRoute)
 app.use('/order', orderRoute)
 
-const middleware = require('./middleware')
-app.use(middleware.mongoErrorHandler)
+import { mongoErrorHandler } from './middleware.mjs'
+app.use(mongoErrorHandler)
 
 export default app
