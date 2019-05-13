@@ -27,7 +27,7 @@ app.use(
 import './model/User.mjs'
 import './model/Customer.mjs'
 import './model/Product.mjs'
-import './model/pickUpLocation.mjs'
+import './model/PickUpLocation.mjs'
 import './model/Order.mjs'
 
 //Routes

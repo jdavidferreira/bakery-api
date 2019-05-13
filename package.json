@@ -2,9 +2,12 @@
   "name": "bakery-api",
   "version": "1.0.0",
   "description": "WebAPI with Express + Mongoose.",
+  "engines": {
+    "node": "12.x"
+  },
   "main": "./src/server.js",
   "scripts": {
-    "start": "node ./src/server",
+    "start": "node --experimental-modules --es-module-specifier-resolution=node ./src/server.mjs",
     "start_local": "node --experimental-modules --es-module-specifier-resolution=node -r dotenv/config ./src/server.mjs",
     "start_nodemon": "nodemon -r dotenv/config ./src/server",
     "test": "set MONGODB_URI=mongodb://localhost:27017/bakery_test&& jest --detectOpenHandles --forceExit"
