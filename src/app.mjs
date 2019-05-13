@@ -1,5 +1,6 @@
 import express from 'express'
 import 'express-async-errors' //prevents wrapping async functions for error handling
+import bearerToken from 'express-bearer-token'
 import mongoose from 'mongoose'
 import cors from 'cors'
 
@@ -38,6 +39,7 @@ import productRoute from './routes/product.mjs'
 import pickUpLocationRoute from './routes/pickUpLocation.mjs'
 import orderRoute from './routes/order.mjs'
 app.use('/auth', authRoute)
+app.use(bearerToken())
 app.use('/user', userRoute)
 app.use('/customer', customerRoute)
 app.use('/product', productRoute)

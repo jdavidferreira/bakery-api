@@ -5,7 +5,7 @@ const rbac = new RBAC(roles)
 import User from './model/User.mjs'
 
 export async function getUserFromJWT(req, res, next) {
-  const authToken = req.cookies.auth_token
+  const authToken = req.token
 
   if (authToken) {
     try {
