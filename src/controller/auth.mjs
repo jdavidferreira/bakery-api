@@ -7,7 +7,7 @@ export async function authToken(req, res) {
 
   if (user) {
     const authToken = await jwt.sign({ user }, process.env.SECRET_KEY, {
-      expiresIn: '1h'
+      expiresIn: '5h'
     })
     res.json({ authToken })
   } else {

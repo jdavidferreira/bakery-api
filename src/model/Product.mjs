@@ -16,4 +16,13 @@ const ProductSchema = mongoose.Schema(
   { collection: 'product', versionKey: false }
 )
 
+ProductSchema.set('toObject', { virtuals: true }) // retrieve the "id" virtual when calling user.toObject
+
+//removes "_id" fields
+ProductSchema.methods.toJSON = function() {
+  const product = this.toObject()
+  delete product._id
+  return product
+}
+
 export default mongoose.model('Product', ProductSchema)

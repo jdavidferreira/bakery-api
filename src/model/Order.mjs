@@ -71,4 +71,13 @@ OrderSchema.plugin(AutoIncrement, {
   collection_name: 'order_counter'
 })
 
+OrderSchema.set('toObject', { virtuals: true }) // retrieve the "id" virtual when calling user.toObject
+
+//removes "_id" fields
+OrderSchema.methods.toJSON = function() {
+  const order = this.toObject()
+  delete order._id
+  return order
+}
+
 export default mongoose.model('Order', OrderSchema)

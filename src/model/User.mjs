@@ -83,7 +83,7 @@ UserSchema.set('toObject', { virtuals: true }) // retrieve the "id" virtual when
 
 //removes "_id" and "password" fields
 UserSchema.methods.toJSON = function() {
-  var user = this.toObject()
+  const user = this.toObject()
   delete user._id
   delete user.password
   return user
