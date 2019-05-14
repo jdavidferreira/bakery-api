@@ -39,7 +39,7 @@ import productRoute from './routes/product.mjs'
 import pickUpLocationRoute from './routes/pickUpLocation.mjs'
 import orderRoute from './routes/order.mjs'
 app.use('/auth', authRoute)
-app.use(bearerToken())
+app.use(bearerToken()) //extract authentication token to req.token
 app.use('/user', userRoute)
 app.use('/customer', customerRoute)
 app.use('/product', productRoute)

@@ -10,9 +10,12 @@ export async function getUserFromJWT(req, res, next) {
   if (authToken) {
     try {
       const jwtPayload = await jwt.verify(authToken, process.env.SECRET_KEY)
-
-      res.locals.user = await User.findById(jwtPayload.user.id)
-
+      const userId = jwtPayload.user.id
+      console.log('userId = ', userId)
+      const user = await User.findById(userId)
+      console.log('user = ', user)
+      res.locals.user = user
+      console.log('res.locals.user = ', res.locals.user)
       next()
     } catch (error) {
       res.status(401).json({ error: 'Invalid authentication token' })
@@ -56,6 +59,7 @@ export function mongoErrorHandler(error, req, res, next) {
 
 export function checkOperationPermission(operation) {
   return async function(req, res, next) {
+    console.log(res.locals.user)
     const role = res.locals.user.role
 
     if (!role) {
@@ -64,7 +68,7 @@ export function checkOperationPermission(operation) {
       next(err)
     }
 
-    const isAllowed = await rbac.can('role', operation)
+    const isAllowed = await rbac.can(role, operation)
 
     if (isAllowed) {
       next()
