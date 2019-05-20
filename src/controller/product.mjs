@@ -1,8 +1,57 @@
 import mongoose from 'mongoose'
+import moment from 'moment'
 const Product = mongoose.model('Product')
 
 export async function findAll(req, res) {
-  let products = await Product.find()
+  const from = req.query.from
+
+  let products = []
+
+  switch (from) {
+    case 'today': {
+      const startToday = moment().startOf('day')
+      const endToday = moment().endOf('day')
+
+      products = await Product.find({
+        dueDate: {
+          $gte: startToday.toDate(),
+          $lte: endToday.toDate()
+        }
+      })
+      break
+    }
+    case 'week': {
+      const startTomorrow = moment()
+        .add(1, 'day')
+        .startOf('day')
+      const endSunday = moment()
+        .day(7)
+        .endOf('day')
+
+      products = await Product.find({
+        dueDate: {
+          $gte: startTomorrow.toDate(),
+          $lte: endSunday.toDate()
+        }
+      })
+      break
+    }
+    case 'upcoming': {
+      const startNextMonday = moment()
+        .day(8)
+        .startOf('day')
+
+      products = await Product.find({
+        dueDate: {
+          $gte: startNextMonday.toDate()
+        }
+      })
+      break
+    }
+    default:
+      products = await Product.find()
+      break
+  }
 
   res.json(products)
 }
