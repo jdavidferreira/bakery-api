@@ -79,7 +79,7 @@ UserSchema.pre('updateOne', async function(next) {
   }
 })
 
-UserSchema.set('toObject', { virtuals: true }) // retrieve the "id" virtual when calling user.toObject
+UserSchema.set('toObject', { virtuals: true }) // retrieve the "id" virtual when calling schema.toObject
 
 //removes "_id" and "password" fields
 UserSchema.methods.toJSON = function() {

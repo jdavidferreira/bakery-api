@@ -1,10 +1,59 @@
 import mongoose from 'mongoose'
+import moment from 'moment'
 const Order = mongoose.model('Order')
 const Customer = mongoose.model('Customer')
 import State from '../model/_State.mjs'
 
 export async function findAll(req, res) {
-  let orders = await Order.find()
+  const from = req.query.from
+
+  let orders = []
+
+  switch (from) {
+    case 'today': {
+      const startToday = moment().startOf('day')
+      const endToday = moment().endOf('day')
+
+      orders = await Order.find({
+        dueDate: {
+          $gte: startToday.toDate(),
+          $lte: endToday.toDate()
+        }
+      })
+      break
+    }
+    case 'week': {
+      const startTomorrow = moment()
+        .add(1, 'day')
+        .startOf('day')
+      const endSunday = moment()
+        .day(7)
+        .endOf('day')
+
+      orders = await Order.find({
+        dueDate: {
+          $gte: startTomorrow.toDate(),
+          $lte: endSunday.toDate()
+        }
+      })
+      break
+    }
+    case 'upcoming': {
+      const startNextMonday = moment()
+        .day(8)
+        .startOf('day')
+
+      orders = await Order.find({
+        dueDate: {
+          $gte: startNextMonday.toDate()
+        }
+      })
+      break
+    }
+    default:
+      orders = await Order.find()
+      break
+  }
 
   res.json(orders)
 }
@@ -31,11 +80,10 @@ export async function create(req, res) {
     customer: customer.id,
     state: State.NEW,
     pickUpLocation: req.body.pickUpLocation,
-    items: JSON.parse(req.body.items),
+    items: req.body.items,
     history: [
       {
-        date: Date.now,
-        createdBy: req.user.id,
+        createdBy: res.locals.user.id,
         newState: State.NEW,
         comment: 'Order placed'
       }

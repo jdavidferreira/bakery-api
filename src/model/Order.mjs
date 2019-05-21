@@ -27,13 +27,14 @@ const OrderSchema = mongoose.Schema(
     },
     items: [
       {
+        _id: false,
         product: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Product',
           required: true
         },
         quantity: { type: Number, default: 1, min: 1 },
-        comment: {
+        details: {
           type: String,
           trim: true
         }
@@ -41,10 +42,10 @@ const OrderSchema = mongoose.Schema(
     ],
     history: [
       {
+        _id: false,
         date: {
           type: Date,
-          default: Date.now,
-          min: Date.now
+          default: Date.now
         },
         createdBy: {
           type: mongoose.Schema.Types.ObjectId,

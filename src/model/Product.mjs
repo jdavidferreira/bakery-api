@@ -16,7 +16,7 @@ const ProductSchema = mongoose.Schema(
   { collection: 'product', versionKey: false }
 )
 
-ProductSchema.set('toObject', { virtuals: true }) // retrieve the "id" virtual when calling user.toObject
+ProductSchema.set('toObject', { virtuals: true }) // retrieve the "id" virtual when calling schema.toObject
 
 //removes "_id" fields
 ProductSchema.methods.toJSON = function() {
