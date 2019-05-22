@@ -20,6 +20,9 @@ export async function findAll(req, res) {
           $lte: endToday.toDate()
         }
       })
+        .populate('pickUpLocation')
+        .populate('customer')
+        .populate('items.product')
       break
     }
     case 'week': {
@@ -36,6 +39,9 @@ export async function findAll(req, res) {
           $lte: endSunday.toDate()
         }
       })
+        .populate('pickUpLocation')
+        .populate('customer')
+        .populate('items.product')
       break
     }
     case 'upcoming': {
@@ -48,10 +54,16 @@ export async function findAll(req, res) {
           $gte: startNextMonday.toDate()
         }
       })
+        .populate('pickUpLocation')
+        .populate('customer')
+        .populate('items.product')
       break
     }
     default:
       orders = await Order.find()
+        .populate('pickUpLocation')
+        .populate('customer')
+        .populate('items.product')
       break
   }
 
